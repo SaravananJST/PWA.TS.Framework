@@ -1,21 +1,20 @@
-import { Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
+import { UserData } from "../utils/userData";
 
 export class SignupPage {
   constructor(private page: Page) {}
 
-  async verifyEnterAccountInfoVisible() {
-    await expect(this.page.getByText('Enter Account Information')).toBeVisible();
+  get enterAccountInfoHeading() {
+    return this.page.getByText('Enter Account Information');
   }
 
-  async fillAccountDetails(user: any) {
+  async fillAccountDetails(user: UserData) {
     await this.page.locator('#password').fill(user.password);
     await this.page.selectOption('#days', '1');
     await this.page.selectOption('#months', '1');
     await this.page.selectOption('#years', '2000');
-
     await this.page.locator('#newsletter').check();
     await this.page.locator('#optin').check();
-
     await this.page.locator('#first_name').fill(user.firstName);
     await this.page.locator('#last_name').fill(user.lastName);
     await this.page.locator('#company').fill(user.company);

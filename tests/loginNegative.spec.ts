@@ -1,11 +1,12 @@
-import { test } from "../tests/fixtures/baseTest";
-import { navigateToHome } from "../utils/userFlows";
+import { test, expect } from "../tests/fixtures/baseTest";
 
 test('Login User with incorrect email and password', async ({ home, auth }) => {
-
-  await navigateToHome(home);
+  await home.navigate();
   await home.clickSignupLogin();
-  await auth.verifyLoginToAccountVisible();
+
+  await expect(auth.loginToAccountHeading).toBeVisible();
+
   await auth.login('wronguser@test.com', 'wrongpassword');
-  await auth.verifyLoginError();
+
+  await expect(auth.loginErrorMessage).toBeVisible();
 });

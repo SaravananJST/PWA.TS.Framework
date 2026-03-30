@@ -5,21 +5,20 @@ import { SignupPage } from "./signup.page";
 import { AccountPage } from "./account.page";
 
 export class PageObjectManager {
-  constructor(private page: Page) {}
+  private readonly homePage: HomePage;
+  private readonly authPage: AuthPage;
+  private readonly signupPage: SignupPage;
+  private readonly accountPage: AccountPage;
 
-  getHomePage() {
-    return new HomePage(this.page);
+  constructor(page: Page) {
+    this.homePage = new HomePage(page);
+    this.authPage = new AuthPage(page);
+    this.signupPage = new SignupPage(page);
+    this.accountPage = new AccountPage(page);
   }
 
-  getAuthPage() {
-    return new AuthPage(this.page);
-  }
-
-  getSignupPage() {
-    return new SignupPage(this.page);
-  }
-
-  getAccountPage() {
-    return new AccountPage(this.page);
-  }
+  getHomePage() { return this.homePage; }
+  getAuthPage() { return this.authPage; }
+  getSignupPage() { return this.signupPage; }
+  getAccountPage() { return this.accountPage; }
 }

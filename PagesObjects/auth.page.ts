@@ -1,10 +1,22 @@
-import { Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 export class AuthPage {
   constructor(private page: Page) {}
 
-  async verifyNewUserSignupVisible() {
-    await expect(this.page.getByText('New User Signup!')).toBeVisible();
+  get newUserSignupHeading() {
+    return this.page.getByText('New User Signup!');
+  }
+
+  get loginToAccountHeading() {
+    return this.page.getByText('Login to your account');
+  }
+
+  get loginErrorMessage() {
+    return this.page.getByText('Your email or password is incorrect!');
+  }
+
+  get signupErrorMessage() {
+    return this.page.getByText('Email Address already exist!');
   }
 
   async enterNameAndEmail(name: string, email: string) {
@@ -16,26 +28,9 @@ export class AuthPage {
     await this.page.getByRole('button', { name: 'Signup' }).click();
   }
 
-async verifyLoginToAccountVisible() {
-  await expect(this.page.getByText('Login to your account')).toBeVisible();
-}
-
-async login(email: string, password: string) {
-  await this.page.locator('input[data-qa="login-email"]').fill(email);
-  await this.page.locator('input[data-qa="login-password"]').fill(password);
-  await this.page.getByRole('button', { name: 'Login' }).click();
-}
-
-async verifyLoginError() {
-  await expect(this.page.getByText('Your email or password is incorrect!')).toBeVisible();
-}
-
-async verifyOnLoginPage() {
-  await expect(this.page).toHaveURL(/login/);
-}
-
-async verifySignupError() {
-  await expect(this.page.getByText('Email Address already exist!')).toBeVisible();
-}
-
+  async login(email: string, password: string) {
+    await this.page.locator('input[data-qa="login-email"]').fill(email);
+    await this.page.locator('input[data-qa="login-password"]').fill(password);
+    await this.page.getByRole('button', { name: 'Login' }).click();
+  }
 }

@@ -1,16 +1,20 @@
-import { test } from "../tests/fixtures/baseTest";
+import { test, expect } from "../tests/fixtures/baseTest";
 import { userData } from "../utils/userData";
 import { registerUser } from "../utils/userFlows";
 
 test('Register User with existing email', async ({ page, home, auth, account }) => {
-
   const user = userData();
 
   await registerUser(page, user);
+
   await account.logout();
+  await expect(auth.loginToAccountHeading).toBeVisible();
+  
   await home.clickSignupLogin();
-  await auth.verifyNewUserSignupVisible();
+  await expect(auth.newUserSignupHeading).toBeVisible();
+
   await auth.enterNameAndEmail(user.name, user.email);
   await auth.clickSignup();
-  await auth.verifySignupError();
+
+  await expect(auth.signupErrorMessage).toBeVisible();
 });
